@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Ticaret Mağazası</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        #products {
+            
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            padding: 20px;
+            margin: 15px;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #cart {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #cartContents {
+            text-align: left;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            color: #722626;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        #totalPrice {
+            font-weight: bold;
+        }
+
+        #loginForm {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loginForm">
+        <h2>Kullanıcı Girişi</h2>
+        <form>
+            <label for="username">Kullanıcı Adı:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Şifre:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Giriş Yap</button>
+        </form>
+    </div>
+
+    <h2>E-Ticaret Mağazası</h2>
+
+    <div id="products"></div>
+
+    <h2>Sepet</h2>
+    <div id="cart">
+        <div id="cartContents"></div>
+        <p>Toplam: $<span id="totalPrice">0.00</span></p>
+        <button onclick="checkout()">Ödeme Yap</button>
+    </div>
+
+    <script>
+        const products = [
+            
+            { id: 1, name: "Bisiklet", price: 299.99, image: "bike.jpg" },
+
+            { id: 2, name: "Kamera", price: 499.99, image: "camera.jpg" },
+            { id: 3, name: "Laptop", price: 799.99, image: "laptop.jpg" },
+            { id: 4, name: "Kulaklık", price: 99.99, image: "headphone.jpg" },
+            { id: 5, name: "Akıllı Saat", price: 199.99, image: "smartwatch.jpg" },
+        ];
+
+        let cart = [];
+
+        function displayProducts() {
+            const productsContainer = document.getElementById("products");
+
+            products.forEach(product => {
+                const productElement = document.createElement("div");
+                productElement.className = "product";
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Fiyat: $${product.price.toFixed(2)}</p>
+                    <button onclick="addToCart(${product.id})">Sepete Ekle</button>
+                `;
+                productsContainer.appendChild(productElement);
+            });
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartContentsElement = document.getElementById("cartContents");
+            const totalPriceElement = document.getElementById("totalPrice");
+
+            cartContentsElement.innerHTML = "";
+            let total = 0;
+
+            cart.forEach(product => {
+                const cartItemElement = document.createElement("div");
+                cartItemElement.innerHTML = `<img src="${product.image}" alt="${product.name}" style="max-width: 50px;"> ${product.name} - $${product.price.toFixed(2)}`;
+                cartContentsElement.appendChild(cartItemElement);
+
+                total += product.price;
+            });
+
+            totalPriceElement.textContent = total.toFixed(2);
+        }
+
+        function checkout() {
+            alert("Ödeme işlemi tamamlandı. Toplam tutar: $" + document.getElementById("totalPrice").textContent);
+            cart = [];
+            updateCart();
+        }
+
+        window.onload = function () {
+            displayProducts();
+        };
+    </script>
+
+</body>
+</html>
