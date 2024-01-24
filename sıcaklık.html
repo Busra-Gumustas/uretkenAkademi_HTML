@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sıcaklık Dönüştürücü</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Sıcaklık Dönüştürücü</h2>
+
+    <label for="temperature">Sıcaklık Değeri: </label>
+    <input type="number" id="temperature">
+
+    <label for="unit">Birim: </label>
+    <select id="unit">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+    </select>
+
+    <button onclick="convertTemperature()">Dönüştür</button>
+
+    <div id="result"></div>
+
+    <script>
+        function convertTemperature() {
+            var temperature = parseFloat(document.getElementById("temperature").value);
+            var unit = document.getElementById("unit").value;
+            var resultElement = document.getElementById("result");
+
+            if (isNaN(temperature)) {
+                resultElement.textContent = "Geçerli bir sıcaklık değeri girin.";
+                return;
+            }
+
+            var result;
+            if (unit === "celsius") {
+                result = (temperature * 9/5) + 32;
+                resultElement.textContent = `${temperature} Celsius, ${result.toFixed(2)} Fahrenheit'a eşittir.`;
+            } else {
+                result = (temperature - 32) * 5/9;
+                resultElement.textContent = `${temperature} Fahrenheit, ${result.toFixed(2)} Celsius'a eşittir.`;
+            }
+        }
+    </script>
+
+</body>
+</html>
